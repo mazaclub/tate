@@ -113,7 +113,7 @@ class Blockchain(threading.Thread):
             height = header.get('block_height')
 
             prev_hash = self.hash_header(prev_header)
-            bits, target = self.get_target(height/2016, chain)
+            bits, target = self.get_target(height, chain)
             _hash = self.hash_header(header)
             try:
                 assert prev_hash == header.get('prev_block_hash')
@@ -130,20 +130,20 @@ class Blockchain(threading.Thread):
 
     def verify_chunk(self, index, hexdata):
         data = hexdata.decode('hex')
-        height = index*2016
+        height = index
         num = len(data)/80
 
         if index == 0:  
             previous_hash = ("0"*64)
         else:
-            prev_header = self.read_header(index*2016-1)
+            prev_header = self.read_header(index-1)
             if prev_header is None: raise
             previous_hash = self.hash_header(prev_header)
 
         bits, target = self.get_target(index)
 
         for i in range(num):
-            height = index*2016 + i
+            height = index + i
             raw_header = data[i*80:(i+1)*80]
             header = self.header_from_string(raw_header)
             _hash = self.hash_header(header)
@@ -204,7 +204,7 @@ class Blockchain(threading.Thread):
     def save_chunk(self, index, chunk):
         filename = self.path()
         f = open(filename,'rb+')
-        f.seek(index*2016*80)
+        f.seek(index*80)
         h = f.write(chunk)
         f.close()
         self.set_local_height()
@@ -239,6 +239,81 @@ class Blockchain(threading.Thread):
             if len(h) == 80:
                 h = self.header_from_string(h)
                 return h 
+
+
+    def get_target_v1(self, index, chain=None):
+        # params
+        nTargetTimespan = 8 * 60
+        nTargetSpacing = 120
+        interval = nTargetTimespan / nTargetSpacing # 4
+        nAveragingInterval = interval * 20 # 80
+        nAveragingTargetTimespan = nAveragingInterval * nTargetSpacing # 9600
+        nMaxAdjustDown = 20
+        nMaxAdjustUp = 15
+        nMinActualTimespan = nAveragingTargetTimespan * (100 - nMaxAdjustUp) / 100
+        nMaxActualTimespan = nAveragingTargetTimespan * (100 + nMaxAdjustDown) / 100
+
+
+        if chain is None:
+            chain = []  # Do not use mutables as default values!
+
+# btc        max_target = 0x00000000FFFF0000000000000000000000000000000000000000000000000000
+        max_target = 0x00000FFFF0000000000000000000000000000000000000000000000000000000
+        if index == 0: return 0x1e0ffff0, max_target
+
+        # Start diff
+        start_target = 0x00000003FFFF0000000000000000000000000000000000000000000000000000
+        if index < nAveragingInterval: return 0x1d03ffff, start_target
+
+        last = self.read_header(index-1)
+        if last is None:
+            for h in chain:
+                if h.get('block_height') == index-1:
+                    last = h
+
+
+        # Only change on each interval
+        if not index % interval == 0:
+            return self.get_target_v1(last, chain)
+
+
+        # first = go back by averagingInterval
+        first = self.read_header(last-(nAveragingInterval-1))
+        if first is None:
+            for fh in chain:
+                if fh.get('block_height') == last-(nAveragingInterval-1):
+                    first = fh
+
+  
+        nActualTimespan = last.get('timestamp') - first.get('timestamp')
+        nActualTimespan = max(nActualTimespan, nMinActualTimespan)
+        nActualTimespan = min(nActualTimespan, nMaxActualTimespan)
+
+        bits = last.get('bits') 
+        # convert to bignum
+        MM = 256*256*256
+        a = bits%MM
+        if a < 0x8000:
+            a *= 256
+        target = (a) * pow(2, 8 * (bits/MM - 3))
+
+        # new target
+        new_target = min( max_target, (target * nActualTimespan)/nAveragingTargetTimespan )
+        
+        # convert it to bits
+        c = ("%064X"%new_target)[2:]
+        i = 31
+        while c[0:2]=="00":
+            c = c[2:]
+            i -= 1
+
+        c = int('0x'+c[0:6],16)
+        if c >= 0x800000: 
+            c /= 256
+            i += 1
+
+        new_bits = c + MM * i
+        return new_bits, new_target
 
 
     def get_target(self, index, chain=None):
@@ -340,8 +415,8 @@ class Blockchain(threading.Thread):
     def get_and_verify_chunks(self, i, header, height):
 
         queue = Queue.Queue()
-        min_index = (self.local_height + 1)/2016
-        max_index = (height + 1)/2016
+        min_index = (self.local_height + 1)
+        max_index = (height + 1)
         n = min_index
         while n < max_index + 1:
             print_error( "Requesting chunk:", n )
