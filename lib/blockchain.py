@@ -240,6 +240,30 @@ class Blockchain(threading.Thread):
                 h = self.header_from_string(h)
                 return h 
 
+    def bits_to_target(self, bits):
+        MM = 256*256*256
+        a = bits%MM
+        if a < 0x8000:
+            a *= 256
+        target = (a) * pow(2, 8 * (bits/MM - 3))
+        return target
+
+    def target_to_bits(target):
+        MM = 256*256*256
+        c = ("%064X"%target)[2:]
+        i = 31
+        while c[0:2]=="00":
+            c = c[2:]
+            i -= 1
+
+        c = int('0x'+c[0:6],16)
+        if c >= 0x800000:
+            c /= 256
+            i += 1
+
+        new_bits = c + MM * i
+        return new_bits
+
 
     def get_target_v1(self, index, chain=None):
         # params
@@ -315,6 +339,69 @@ class Blockchain(threading.Thread):
         new_bits = c + MM * i
         return new_bits, new_target
 
+    def get_target_dgw3(self, index, chain=None):
+        if chain is None:
+            chain = []
+
+        last = self.read_header(index-1)
+        if last is None:
+            for h in chain:
+                if h.get('block_height') == index-1:
+                    last = h
+
+        # params
+        BlockLastSolved = last
+        BlockReading = last
+        BlockCreating = index
+        nActualTimespan = 0
+        LastBlockTime = 0
+        PastBlocksMin = 24
+        PastBlocksMax = 24
+        CountBlocks = 0
+        PastDifficultyAverage = 0
+        PastDifficultyAveragePrev = 0
+        bnNum = 0
+
+        max_target = 0x00000FFFF0000000000000000000000000000000000000000000000000000000
+
+        if BlockLastSolved is None or BlockLastSolved.get('block_height') < PastBlocksMin:
+            return 0x1e0ffff0, max_target
+        for i in range(1, PastBlocksMax + 1):
+            CountBlocks += 1
+
+            if CountBlocks <= PastBlocksMin:
+                if CountBlocks == 1:
+                    PastDifficultyAverage = self.bits_to_target(BlockReading.get('bits'))
+                else:
+                    bnNum = self.bits_to_target(BlockReading.get('bits'))
+                    PastDifficultyAverage = ((PastDifficultyAveragePrev * CountBlocks)+(bnNum)) / (CountBlocks + 1)
+                PastDifficultyAveragePrev = PastDifficultyAverage
+
+            if LastBlockTime > 0:
+                Diff = (LastBlockTime - BlockReading.get('timestamp'))
+                nActualTimespan += Diff
+            LastBlockTime = BlockReading.get('timestamp')
+
+            BlockReading = self.read_header(BlockReading - 1)
+            if BlockReading is None:
+                for br in chain:
+                    if br.get('block_height') == BlockReading - 1:
+                        BlockReading = br
+
+            bnNew = PastDifficultyAverage
+            nTargetTimespan = CountBlocks * 120
+
+            nActualTimespan = max(nActualTimespan, nTargetTimespan/3)
+            nActualTimespan = min(nActualTimespan, nTargetTimespan*3)
+
+            # retarget
+            bnNew *= nActualTimespan
+            bnNew /= nTargetTimespan
+
+            bnNew = min(bnNew, max_target)
+
+            new_bits = self.target_to_bits(bnNew)
+            return new_bits, bnNew
 
     def get_target(self, index, chain=None):
         if chain is None:
