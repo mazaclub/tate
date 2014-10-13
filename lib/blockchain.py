@@ -407,46 +407,13 @@ class Blockchain(threading.Thread):
         if chain is None:
             chain = []  # Do not use mutables as default values!
 
-        max_target = 0x00000000FFFF0000000000000000000000000000000000000000000000000000
-        if index == 0: return 0x1d00ffff, max_target
+        DiffMode = 1
+        if index >= 100000: DiffMode = 2
 
-        first = self.read_header((index-1)*2016)
-        last = self.read_header(index*2016-1)
-        if last is None:
-            for h in chain:
-                if h.get('block_height') == index*2016-1:
-                    last = h
- 
-        nActualTimespan = last.get('timestamp') - first.get('timestamp')
-        nTargetTimespan = 14*24*60*60
-        nActualTimespan = max(nActualTimespan, nTargetTimespan/4)
-        nActualTimespan = min(nActualTimespan, nTargetTimespan*4)
-
-        bits = last.get('bits') 
-        # convert to bignum
-        MM = 256*256*256
-        a = bits%MM
-        if a < 0x8000:
-            a *= 256
-        target = (a) * pow(2, 8 * (bits/MM - 3))
-
-        # new target
-        new_target = min( max_target, (target * nActualTimespan)/nTargetTimespan )
+        if DiffMode == 1: return self.get_target_v1(index, chain)
+        elif DiffMode == 2: return self.get_target_dgw3(index, chain)
         
-        # convert it to bits
-        c = ("%064X"%new_target)[2:]
-        i = 31
-        while c[0:2]=="00":
-            c = c[2:]
-            i -= 1
-
-        c = int('0x'+c[0:6],16)
-        if c >= 0x800000: 
-            c /= 256
-            i += 1
-
-        new_bits = c + MM * i
-        return new_bits, new_target
+        return self.get_target_dgw3(index, chain)
 
 
     def request_header(self, i, h, queue):
