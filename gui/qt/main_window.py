@@ -529,15 +529,15 @@ class ElectrumWindow(QMainWindow):
     def create_history_menu(self, position):
         self.history_list.selectedIndexes()
         item = self.history_list.currentItem()
-        be = self.config.get('block_explorer', 'Blockchain.info')
-        if be == 'Blockchain.info':
-            block_explorer = 'https://blockchain.info/tx/'
-        elif be == 'Blockr.io':
-            block_explorer = 'https://blockr.io/tx/info/'
-        elif be == 'Insight.is':
-            block_explorer = 'http://live.insight.is/tx/'
-        elif be == "Blocktrail.com":
-            block_explorer = 'https://www.blocktrail.com/tx/'
+        be = self.config.get('block_explorer', 'Mazacha.in')
+        if be == 'Mazacha.in':
+            block_explorer = 'https://mazacha.in/tx/'
+#        elif be == 'Blockr.io':
+#            block_explorer = 'https://blockr.io/tx/info/'
+#        elif be == 'Insight.is':
+#            block_explorer = 'http://live.insight.is/tx/'
+#        elif be == "Blocktrail.com":
+#            block_explorer = 'https://www.blocktrail.com/tx/'
 
         if not item: return
         tx_hash = str(item.data(0, Qt.UserRole).toString())
