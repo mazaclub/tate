@@ -298,14 +298,14 @@ class Blockchain(threading.Thread):
 
         # Only change on each interval
         if not index % interval == 0:
-            return self.get_target_v1(last, chain)
+            return self.get_target_v1(index-1, chain)
 
 
         # first = go back by averagingInterval
-        first = self.read_header(last-(nAveragingInterval-1))
+        first = self.read_header((index-1)-(nAveragingInterval-1))
         if first is None:
             for fh in chain:
-                if fh.get('block_height') == last-(nAveragingInterval-1):
+                if fh.get('block_height') == (index-1)-(nAveragingInterval-1):
                     first = fh
 
   
