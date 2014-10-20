@@ -248,7 +248,7 @@ class Blockchain(threading.Thread):
         target = (a) * pow(2, 8 * (bits/MM - 3))
         return target
 
-    def target_to_bits(target):
+    def target_to_bits(self, target):
         MM = 256*256*256
         c = ("%064X"%target)[2:]
         i = 31
@@ -364,7 +364,7 @@ class Blockchain(threading.Thread):
 
         max_target = 0x00000FFFF0000000000000000000000000000000000000000000000000000000
 
-        if BlockLastSolved is None or BlockLastSolved.get('block_height') < PastBlocksMin:
+        if BlockLastSolved is None or index-1 < PastBlocksMin:
             return 0x1e0ffff0, max_target
         for i in range(1, PastBlocksMax + 1):
             CountBlocks += 1
@@ -382,26 +382,26 @@ class Blockchain(threading.Thread):
                 nActualTimespan += Diff
             LastBlockTime = BlockReading.get('timestamp')
 
-            BlockReading = self.read_header(BlockReading - 1)
+            BlockReading = self.read_header((index-1) - CountBlocks)
             if BlockReading is None:
                 for br in chain:
-                    if br.get('block_height') == BlockReading - 1:
+                    if br.get('block_height') == (index-1) - CountBlocks:
                         BlockReading = br
 
-            bnNew = PastDifficultyAverage
-            nTargetTimespan = CountBlocks * 120
+        bnNew = PastDifficultyAverage
+        nTargetTimespan = CountBlocks * 120
 
-            nActualTimespan = max(nActualTimespan, nTargetTimespan/3)
-            nActualTimespan = min(nActualTimespan, nTargetTimespan*3)
+        nActualTimespan = max(nActualTimespan, nTargetTimespan/3)
+        nActualTimespan = min(nActualTimespan, nTargetTimespan*3)
 
-            # retarget
-            bnNew *= nActualTimespan
-            bnNew /= nTargetTimespan
+        # retarget
+        bnNew *= nActualTimespan
+        bnNew /= nTargetTimespan
 
-            bnNew = min(bnNew, max_target)
+        bnNew = min(bnNew, max_target)
 
-            new_bits = self.target_to_bits(bnNew)
-            return new_bits, bnNew
+        new_bits = self.target_to_bits(bnNew)
+        return new_bits, bnNew
 
     def get_target(self, index, chain=None):
         if chain is None:
