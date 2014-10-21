@@ -8,7 +8,7 @@ try:
     import PyQt4.QtCore as QtCore
 
 except ImportError:
-    print "You need to have PyQT installed to run Electrum in graphical mode."
+    print "You need to have PyQT installed to run Tate in graphical mode."
     print "If you have pip installed try 'sudo pip install pyqt' if you are on Debian/Ubuntu try 'sudo apt-get install python-qt4'."
     sys.exit(0)
 
@@ -252,7 +252,7 @@ class MiniWindow(QDialog):
         self.toggle_receiving_layout(show_hist)
         
         self.setWindowIcon(QIcon(":icons/electrum.png"))
-        self.setWindowTitle("Electrum")
+        self.setWindowTitle("Tate")
         self.setWindowFlags(Qt.Window|Qt.MSWindowsFixedSizeDialogHint)
         self.layout().setSizeConstraint(QLayout.SetFixedSize)
         self.setObjectName("main_window")
@@ -355,7 +355,7 @@ class MiniWindow(QDialog):
         self.amount_input_changed(self.amount_input.text())
 
     def set_balances(self, btc_balance):
-        """Set the bitcoin balance and update the amount label accordingly."""
+        """Set the mazacoin balance and update the amount label accordingly."""
         self.btc_balance = btc_balance
         quote_text = self.create_quote_text(btc_balance)
         if quote_text:
@@ -365,10 +365,10 @@ class MiniWindow(QDialog):
         unit = self.actuator.g.base_unit()
 
         self.balance_label.set_balance_text(amount, unit, quote_text)
-        self.setWindowTitle("Tomahawk %s - %s %s" % (electrum_version, amount, unit))
+        self.setWindowTitle("Tate %s - %s %s" % (electrum_version, amount, unit))
 
     def amount_input_changed(self, amount_text):
-        """Update the number of bitcoins displayed."""
+        """Update the number of mazacoins displayed."""
         self.check_button_status()
 
         try:
@@ -385,7 +385,7 @@ class MiniWindow(QDialog):
 
     def create_quote_text(self, btc_balance):
         """Return a string copy of the amount fiat currency the 
-        user has in bitcoins."""
+        user has in mazacoins."""
         from electrum.plugins import run_hook
         r = {}
         run_hook('get_fiat_balance_text', btc_balance, r)
@@ -398,7 +398,7 @@ class MiniWindow(QDialog):
             self.amount_input.setText("")
 
     def check_button_status(self):
-        """Check that the bitcoin address is valid and that something
+        """Check that the mazacoin address is valid and that something
         is entered in the amount before making the send button clickable."""
         try:
             value = D(str(self.amount_input.text())) * (10**self.actuator.g.decimal_point)
@@ -502,7 +502,7 @@ class BalanceLabel(QLabel):
                 
 
     def set_balance_text(self, amount, unit, quote_text):
-        """Set the amount of bitcoins in the gui."""
+        """Set the amount of mazacoins in the gui."""
         if self.state == self.SHOW_CONNECTING:
             self.state = self.SHOW_BALANCE
 
@@ -583,7 +583,7 @@ class ReceivePopup(QDialog):
         main_layout.addWidget(address_display)
 
         self.setMouseTracking(True)
-        self.setWindowTitle("Electrum - " + _("Receive Bitcoin payment"))
+        self.setWindowTitle("Tate - " + _("Receive Mazacoin payment"))
         self.setWindowFlags(Qt.Window|Qt.FramelessWindowHint|
                             Qt.MSWindowsFixedSizeDialogHint)
         self.layout().setSizeConstraint(QLayout.SetFixedSize)
@@ -600,7 +600,7 @@ class ReceivePopup(QDialog):
 
 class MiniActuator:
     """Initialize the definitions relating to themes and 
-    sending/receiving bitcoins."""
+    sending/receiving mazacoins."""
     
     
     def __init__(self, main_window):
@@ -674,7 +674,7 @@ class MiniActuator:
         s.start()
         w = QDialog()
         w.resize(200, 70)
-        w.setWindowTitle('Electrum')
+        w.setWindowTitle('Tate')
         l = QLabel(_('Sending transaction, please wait.'))
         vbox = QVBoxLayout()
         vbox.addWidget(l)
@@ -690,12 +690,12 @@ class MiniActuator:
 
 
     def send(self, address, amount, parent_window):
-        """Send bitcoins to the target address."""
+        """Send mazacoins to the target address."""
         dest_address = self.fetch_destination(address)
 
         if dest_address is None or not is_valid(dest_address):
             QMessageBox.warning(parent_window, _('Error'), 
-                _('Invalid Bitcoin Address') + ':\n' + address, _('OK'))
+                _('Invalid Mazacoin Address') + ':\n' + address, _('OK'))
             return False
 
         amount = D(unicode(amount)) * (10*self.g.decimal_point)
