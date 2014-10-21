@@ -29,7 +29,7 @@ from electrum.bitcoin import is_valid
 from electrum import WalletStorage, Wallet
 
 Gdk.threads_init()
-APP_NAME = "Electrum"
+APP_NAME = "Tate"
 import platform
 MONOSPACE_FONT = 'Lucida Console' if platform.system() == 'Windows' else 'monospace'
 
@@ -82,7 +82,7 @@ def restore_create_dialog():
 
     # ask if the user wants to create a new wallet, or recover from a seed. 
     # if he wants to recover, and nothing is found, do not create wallet
-    dialog = Gtk.Dialog("electrum", parent=None, 
+    dialog = Gtk.Dialog("tate", parent=None, 
                         flags=Gtk.DialogFlags.MODAL,
                         buttons= ("create", 0, "restore",1, "cancel",2)  )
 
@@ -253,7 +253,7 @@ def run_network_dialog( network, parent ):
         host_entry.set_text("Not Connected")
     host_entry.show()
     host_box.pack_start(host_entry, False, False, 10)
-    add_help_button(host_box, 'The name, port number and protocol of your Electrum server, separated by a colon. Example: "ecdsa.org:50002:s". Some servers allow you to connect through http (port 80) or https (port 443)')
+    add_help_button(host_box, 'The name, port number and protocol of your Tate server, separated by a colon. Example: "ecdsa.org:50002:s". Some servers allow you to connect through http (port 80) or https (port 443)')
     host_box.show()
 
     p_box = Gtk.HBox(False, 10)
@@ -457,7 +457,7 @@ class ElectrumWindow:
         self.num_zeros = int(self.config.get('num_zeros',0))
         self.window = Gtk.Window(Gtk.WindowType.TOPLEVEL)
         self.window.connect('key-press-event', self.on_key)
-        title = 'Electrum ' + self.wallet.electrum_version + '  -  ' + self.config.path
+        title = 'Tate ' + self.wallet.electrum_version + '  -  ' + self.config.path
         if not self.wallet.seed: title += ' [seedless]'
         self.window.set_title(title)
         self.window.connect("destroy", Gtk.main_quit)
