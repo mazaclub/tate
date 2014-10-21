@@ -35,6 +35,7 @@ class Blockchain(threading.Thread):
         self.headers_url = 'http://headers.electrum.org/blockchain_headers'
         self.set_local_height()
         self.queue = Queue.Queue()
+        self.chunk_size = 2016 # number of headers in a chunk
 
     
     def height(self):
@@ -130,20 +131,21 @@ class Blockchain(threading.Thread):
 
     def verify_chunk(self, index, hexdata):
         data = hexdata.decode('hex')
-        height = index
+        height = index*self.chunk_size
         num = len(data)/80
 
         if index == 0:  
             previous_hash = ("0"*64)
         else:
-            prev_header = self.read_header(index-1)
+            prev_header = self.read_header(index*self.chunk_size-1)
             if prev_header is None: raise
             previous_hash = self.hash_header(prev_header)
 
-        bits, target = self.get_target(index)
+#        bits, target = self.get_target(index)
 
         for i in range(num):
-            height = index + i
+            height = index*self.chunk_size + i
+            bits, target = self.get_target(height)
             raw_header = data[i*80:(i+1)*80]
             header = self.header_from_string(raw_header)
             _hash = self.hash_header(header)
@@ -204,7 +206,7 @@ class Blockchain(threading.Thread):
     def save_chunk(self, index, chunk):
         filename = self.path()
         f = open(filename,'rb+')
-        f.seek(index*80)
+        f.seek(index*self.chunk_size*80)
         h = f.write(chunk)
         f.close()
         self.set_local_height()
@@ -469,8 +471,8 @@ class Blockchain(threading.Thread):
     def get_and_verify_chunks(self, i, header, height):
 
         queue = Queue.Queue()
-        min_index = (self.local_height + 1)
-        max_index = (height + 1)
+        min_index = (self.local_height + 1)/self.chunk_size
+        max_index = (height + 1)/self.chunk_size
         n = min_index
         while n < max_index + 1:
             print_error( "Requesting chunk:", n )
