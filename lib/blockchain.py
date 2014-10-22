@@ -35,6 +35,7 @@ class Blockchain(threading.Thread):
         self.headers_url = 'http://headers.electrum.org/blockchain_headers'
         self.set_local_height()
         self.queue = Queue.Queue()
+        self.chunk_size = 2016 # number of headers in a chunk
 
     
     def height(self):
@@ -130,20 +131,21 @@ class Blockchain(threading.Thread):
 
     def verify_chunk(self, index, hexdata):
         data = hexdata.decode('hex')
-        height = index
+        height = index*self.chunk_size
         num = len(data)/80
 
         if index == 0:  
             previous_hash = ("0"*64)
         else:
-            prev_header = self.read_header(index-1)
+            prev_header = self.read_header(index*self.chunk_size-1)
             if prev_header is None: raise
             previous_hash = self.hash_header(prev_header)
 
-        bits, target = self.get_target(index)
+#        bits, target = self.get_target(index)
 
         for i in range(num):
-            height = index + i
+            height = index*self.chunk_size + i
+            bits, target = self.get_target(height)
             raw_header = data[i*80:(i+1)*80]
             header = self.header_from_string(raw_header)
             _hash = self.hash_header(header)
@@ -204,7 +206,7 @@ class Blockchain(threading.Thread):
     def save_chunk(self, index, chunk):
         filename = self.path()
         f = open(filename,'rb+')
-        f.seek(index*80)
+        f.seek(index*self.chunk_size*80)
         h = f.write(chunk)
         f.close()
         self.set_local_height()
@@ -265,7 +267,7 @@ class Blockchain(threading.Thread):
         return new_bits
 
 
-    def get_target_v1(self, index, chain=None):
+    def get_target_v1(self, block_height, chain=None):
         # params
         nTargetTimespan = 8 * 60
         nTargetSpacing = 120
@@ -283,29 +285,29 @@ class Blockchain(threading.Thread):
 
 # btc        max_target = 0x00000000FFFF0000000000000000000000000000000000000000000000000000
         max_target = 0x00000FFFF0000000000000000000000000000000000000000000000000000000
-        if index == 0: return 0x1e0ffff0, max_target
+        if block_height == 0: return 0x1e0ffff0, max_target
 
         # Start diff
         start_target = 0x00000003FFFF0000000000000000000000000000000000000000000000000000
-        if index < nAveragingInterval: return 0x1d03ffff, start_target
+        if block_height < nAveragingInterval: return 0x1d03ffff, start_target
 
-        last = self.read_header(index-1)
+        last = self.read_header(block_height-1)
         if last is None:
             for h in chain:
-                if h.get('block_height') == index-1:
+                if h.get('block_height') == block_height-1:
                     last = h
 
 
         # Only change on each interval
-        if not index % interval == 0:
-            return self.get_target_v1(index-1, chain)
+        if not block_height % interval == 0:
+            return self.get_target_v1(block_height-1, chain)
 
 
         # first = go back by averagingInterval
-        first = self.read_header((index-1)-(nAveragingInterval-1))
+        first = self.read_header((block_height-1)-(nAveragingInterval-1))
         if first is None:
             for fh in chain:
-                if fh.get('block_height') == (index-1)-(nAveragingInterval-1):
+                if fh.get('block_height') == (block_height-1)-(nAveragingInterval-1):
                     first = fh
 
   
@@ -339,20 +341,20 @@ class Blockchain(threading.Thread):
         new_bits = c + MM * i
         return new_bits, new_target
 
-    def get_target_dgw3(self, index, chain=None):
+    def get_target_dgw3(self, block_height, chain=None):
         if chain is None:
             chain = []
 
-        last = self.read_header(index-1)
+        last = self.read_header(block_height-1)
         if last is None:
             for h in chain:
-                if h.get('block_height') == index-1:
+                if h.get('block_height') == block_height-1:
                     last = h
 
         # params
         BlockLastSolved = last
         BlockReading = last
-        BlockCreating = index
+        BlockCreating = block_height
         nActualTimespan = 0
         LastBlockTime = 0
         PastBlocksMin = 24
@@ -364,7 +366,7 @@ class Blockchain(threading.Thread):
 
         max_target = 0x00000FFFF0000000000000000000000000000000000000000000000000000000
 
-        if BlockLastSolved is None or index-1 < PastBlocksMin:
+        if BlockLastSolved is None or block_height-1 < PastBlocksMin:
             return 0x1e0ffff0, max_target
         for i in range(1, PastBlocksMax + 1):
             CountBlocks += 1
@@ -382,10 +384,10 @@ class Blockchain(threading.Thread):
                 nActualTimespan += Diff
             LastBlockTime = BlockReading.get('timestamp')
 
-            BlockReading = self.read_header((index-1) - CountBlocks)
+            BlockReading = self.read_header((block_height-1) - CountBlocks)
             if BlockReading is None:
                 for br in chain:
-                    if br.get('block_height') == (index-1) - CountBlocks:
+                    if br.get('block_height') == (block_height-1) - CountBlocks:
                         BlockReading = br
 
         bnNew = PastDifficultyAverage
@@ -403,17 +405,17 @@ class Blockchain(threading.Thread):
         new_bits = self.target_to_bits(bnNew)
         return new_bits, bnNew
 
-    def get_target(self, index, chain=None):
+    def get_target(self, block_height, chain=None):
         if chain is None:
             chain = []  # Do not use mutables as default values!
 
         DiffMode = 1
-        if index >= 100000: DiffMode = 2
+        if block_height >= 100000: DiffMode = 2
 
-        if DiffMode == 1: return self.get_target_v1(index, chain)
-        elif DiffMode == 2: return self.get_target_dgw3(index, chain)
+        if DiffMode == 1: return self.get_target_v1(block_height, chain)
+        elif DiffMode == 2: return self.get_target_dgw3(block_height, chain)
         
-        return self.get_target_dgw3(index, chain)
+        return self.get_target_dgw3(block_height, chain)
 
 
     def request_header(self, i, h, queue):
@@ -469,8 +471,8 @@ class Blockchain(threading.Thread):
     def get_and_verify_chunks(self, i, header, height):
 
         queue = Queue.Queue()
-        min_index = (self.local_height + 1)
-        max_index = (height + 1)
+        min_index = (self.local_height + 1)/self.chunk_size
+        max_index = (height + 1)/self.chunk_size
         n = min_index
         while n < max_index + 1:
             print_error( "Requesting chunk:", n )
