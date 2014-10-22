@@ -153,10 +153,11 @@ class Blockchain(threading.Thread):
             assert bits == header.get('bits')
             assert int('0x'+_hash,16) < target
 
+            self.save_header(header, height)
             previous_header = header
             previous_hash = _hash 
 
-        self.save_chunk(index, data)
+#        self.save_chunk(index, data)
         print_error("validated chunk %d"%height)
 
         
@@ -211,10 +212,10 @@ class Blockchain(threading.Thread):
         f.close()
         self.set_local_height()
 
-    def save_header(self, header):
+    def save_header(self, header, height=None):
         data = self.header_to_string(header).decode('hex')
         assert len(data) == 80
-        height = header.get('block_height')
+        if height is None: height = header.get('block_height')
         filename = self.path()
         f = open(filename,'rb+')
         f.seek(height*80)
