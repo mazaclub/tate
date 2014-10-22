@@ -35,7 +35,7 @@ if (len(sys.argv) > 1 and (sys.argv[1] == "sdist")) or (platform.system() != 'Wi
 
 appdata_dir = util.appdata_dir()
 if not os.access(appdata_dir, os.W_OK):
-    appdata_dir = os.path.join(usr_share, "electrum")
+    appdata_dir = os.path.join(usr_share, "tate")
 
 data_files += [
     (appdata_dir, ["data/README"]),
