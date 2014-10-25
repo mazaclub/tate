@@ -91,7 +91,7 @@ class SimpleConfig(object):
         if not os.path.exists(self.path):
             os.mkdir(self.path)
 
-        print_error( "electrum directory", self.path)
+        print_error( "tate directory", self.path)
 
     def set_key(self, key, value, save = True):
         if not self.is_modifiable(key):
