@@ -2,7 +2,7 @@
 
 import sys
 import time
-import electrum
+import tate
 
 try:
     addr = sys.argv[1]

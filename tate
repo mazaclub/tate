@@ -40,14 +40,14 @@ __builtin__.use_local_modules = is_local or is_android
 if __builtin__.use_local_modules:
     import imp
     imp.load_module('electrum', *imp.find_module('lib'))
-    imp.load_module('electrum_gui', *imp.find_module('gui'))
+    imp.load_module('tate_gui', *imp.find_module('gui'))
 
 
-from electrum import util
-from electrum import SimpleConfig, Network, Wallet, WalletStorage, NetworkProxy, Commands, known_commands, pick_random_server
-from electrum.util import print_msg, print_stderr, print_json, set_verbosity
-from electrum.daemon import get_daemon
-from electrum.plugins import init_plugins
+from tate import util
+from tate import SimpleConfig, Network, Wallet, WalletStorage, NetworkProxy, Commands, known_commands, pick_random_server
+from tate.util import print_msg, print_stderr, print_json, set_verbosity
+from tate.daemon import get_daemon
+from tate.plugins import init_plugins
 
 
 
@@ -190,7 +190,7 @@ if __name__ == '__main__':
         if gui_name in ['lite', 'classic']:
             gui_name = 'qt'
         try:
-            gui = __import__('electrum_gui.' + gui_name, fromlist=['electrum_gui'])
+            gui = __import__('tate_gui.' + gui_name, fromlist=['tate_gui'])
         except ImportError:
             traceback.print_exc(file=sys.stdout)
             sys.exit()

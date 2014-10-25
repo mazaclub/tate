@@ -24,7 +24,7 @@ import json
 import Queue
 import sqlite3
 
-import electrum
+import tate
 electrum.set_verbosity(False)
 
 import ConfigParser

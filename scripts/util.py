@@ -1,6 +1,6 @@
 import time, electrum, Queue
-from electrum import Interface, SimpleConfig
-from electrum.network import filter_protocol, parse_servers
+from tate import Interface, SimpleConfig
+from tate.network import filter_protocol, parse_servers
 
 # electrum.util.set_verbosity(1)
 

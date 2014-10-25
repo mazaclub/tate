@@ -2,11 +2,11 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 import PyQt4.QtCore as QtCore
 
-import electrum
-from electrum.i18n import _
-from electrum import Wallet, Wallet_2of2, Wallet_2of3
-from electrum import bitcoin
-from electrum import util
+import tate
+from tate.i18n import _
+from tate import Wallet, Wallet_2of2, Wallet_2of3
+from tate import bitcoin
+from tate import util
 
 import seed_dialog
 from network_dialog import NetworkDialog
@@ -15,8 +15,8 @@ from amountedit import AmountEdit
 
 import sys
 import threading
-from electrum.plugins import run_hook
-from electrum.mnemonic import prepare_seed
+from tate.plugins import run_hook
+from tate.mnemonic import prepare_seed
 
 MSG_ENTER_ANYTHING    = _("Please enter a wallet seed, a master public key, a list of Mazacoin addresses, or a list of private keys")
 MSG_SHOW_MPK          = _("This is your master public key")
