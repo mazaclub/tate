@@ -6,7 +6,7 @@ from tate import NetworkProxy, print_json
 try:
     addr = sys.argv[1]
 except Exception:
-    print "usage: get_history <bitcoin_address>"
+    print "usage: get_history <mazacoin_address>"
     sys.exit(1)
 
 n = NetworkProxy()

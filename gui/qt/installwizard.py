@@ -77,7 +77,7 @@ class InstallWizard(QDialog):
         ]
 
         for i, (wtype,name) in enumerate(self.wallet_types):
-            if not filter(lambda x:x[0]==wtype, electrum.wallet.wallet_types):
+            if not filter(lambda x:x[0]==wtype, tate.wallet.wallet_types):
                 continue
             button = QRadioButton(gb2)
             button.setText(name)
@@ -334,7 +334,7 @@ class InstallWizard(QDialog):
                 if not wallet_type:
                     return
             elif wallet_type == 'hardware':
-                hardware_wallets = map(lambda x:(x[1],x[2]), filter(lambda x:x[0]=='hardware', electrum.wallet.wallet_types))
+                hardware_wallets = map(lambda x:(x[1],x[2]), filter(lambda x:x[0]=='hardware', tate.wallet.wallet_types))
                 wallet_type = self.choice(_("Hardware Wallet"), 'Select your hardware wallet', hardware_wallets)
                 if not wallet_type:
                     return

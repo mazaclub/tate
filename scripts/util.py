@@ -1,4 +1,4 @@
-import time, electrum, Queue
+import time, tate, Queue
 from tate import Interface, SimpleConfig
 from tate.network import filter_protocol, parse_servers
 
@@ -6,7 +6,7 @@ from tate.network import filter_protocol, parse_servers
 
 def get_peers():
     # 1. start interface and wait for connection
-    interface = electrum.Interface('ecdsa.net:110:s')
+    interface = tate.Interface('ecdsa.net:110:s')
     q = Queue.Queue()
     interface.start(q)
     i, r = q.get()

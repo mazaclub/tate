@@ -239,7 +239,7 @@ class Commands:
 
     def getversion(self):
         import tate  # Needs to stay here to prevent ciruclar imports
-        return electrum.ELECTRUM_VERSION
+        return tate.ELECTRUM_VERSION
 
     def getmpk(self):
         return self.wallet.get_master_public_keys()
