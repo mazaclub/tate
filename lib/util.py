@@ -176,7 +176,7 @@ def parse_URI(uri):
         return uri, None, None, None, None
 
     u = urlparse.urlparse(uri)
-    assert u.scheme == 'bitcoin'
+    assert u.scheme == 'mazacoin'
 
     address = u.path
     valid_address = bitcoin.is_address(address)
