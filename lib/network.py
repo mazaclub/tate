@@ -7,7 +7,7 @@ from blockchain import Blockchain
 DEFAULT_PORTS = {'t':'50001', 's':'50002', 'h':'8081', 'g':'8082'}
 
 DEFAULT_SERVERS = {
-    'thunderfuck.shastafareye.net':{'t':'29956', 's':'29957', 'h':'80', 'g':'443'},
+    'tate.maza.club':{'t':'29956', 's':'29957', 'h':'80', 'g':'443'},
 }
 
 DISCONNECTED_RETRY_INTERVAL = 60
