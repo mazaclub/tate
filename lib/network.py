@@ -8,6 +8,8 @@ DEFAULT_PORTS = {'t':'50001', 's':'50002', 'h':'8081', 'g':'8082'}
 
 DEFAULT_SERVERS = {
     'tate.maza.club':DEFAULT_PORTS,
+    'tate1.maza.club':DEFAULT_PORTS,
+    'tate2.maza.club':DEFAULT_PORTS,
 }
 
 DISCONNECTED_RETRY_INTERVAL = 60
