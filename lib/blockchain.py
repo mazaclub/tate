@@ -231,6 +231,14 @@ class Blockchain(threading.Thread):
             if self.local_height != h:
                 self.local_height = h
 
+    def roll_back_to_last_chunk(self):
+        name = self.path()
+        if os.path.exists(name):
+            f = open(name,'rb+')
+            f.seek((self.local_height/self.chunk_size)*80)
+            f.truncate()
+            f.close()
+        self.set_local_height()
 
     def read_header(self, block_height):
         name = self.path()
@@ -460,9 +468,10 @@ class Blockchain(threading.Thread):
             prev_hash = self.hash_header(previous_header)
             if prev_hash != header.get('prev_block_hash'):
                 print_error("reorg")
-                self.request_header(interface, height - 1, queue)
-                requested_header = True
-                continue
+                self.roll_back_to_last_chunk()
+#                self.request_header(interface, height - 1, queue)
+#                requested_header = True
+                return None
 
             else:
                 # the chain is complete
