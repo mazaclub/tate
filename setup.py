@@ -135,9 +135,10 @@ setup(
         'tate_plugins.virtualkeyboard',
     ],
     description="Lightweight Mazacoin Wallet",
-    author="Thomas Voegtlin",
+    author="Thomas Voegtlin; forked for Mazacoin by mazaclub",
     author_email="thomasv1@gmx.de",
     license="GNU GPLv3",
+    # TODO Change for tate
     url="https://electrum.org",
     long_description="""Lightweight Mazacoin Wallet. A Mazacoin-compatible fork of Electrum."""
 )

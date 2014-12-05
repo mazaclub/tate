@@ -1,7 +1,7 @@
 Tate - lightweight Mazacoin client
 
 Licence: GNU GPL v3
-Author: Thomas Voegtlin
+Author: Thomas Voegtlin; forked for Mazacoin by mazaclub (Tyler Willis, Rob Nelson, et al.)
 Language: Python
 Homepage: https://electrum.org/
 
@@ -9,18 +9,18 @@ Homepage: https://electrum.org/
 1. GETTING STARTED
 ------------------
 
-To run Electrum from this directory, just do:
+To run Tate from this directory, just do:
 
-  ./electrum
+  ./tate
 
-If you install Electrum on your system, you can run it from any
+If you install Tate on your system, you can run it from any
 directory:
 
   sudo python setup.py install
-  electrum
+  tate
 
 
-To start Electrum from your web browser, see
+To start Tate from your web browser, see
 http://electrum.org/bitcoin_URIs.html
 
 
@@ -40,6 +40,6 @@ On Mac OS X:
   # On brew installs
   ARCHFLAGS="-arch i386 -arch x86_64" sudo python setup-release.py py2app --includes sip
 
-  sudo hdiutil create -fs HFS+ -volname "Electrum" -srcfolder dist/Electrum.app dist/electrum-VERSION-macosx.dmg
+  sudo hdiutil create -fs HFS+ -volname "Tate" -srcfolder dist/Tate.app dist/tate-VERSION-macosx.dmg
 
 

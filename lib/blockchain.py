@@ -32,6 +32,7 @@ class Blockchain(threading.Thread):
         self.lock = threading.Lock()
         self.local_height = 0
         self.running = False
+        # TODO Change for tate
         self.headers_url = ''#'http://headers.electrum.org/blockchain_headers'
         self.set_local_height()
         self.queue = Queue.Queue()

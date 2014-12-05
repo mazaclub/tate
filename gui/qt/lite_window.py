@@ -457,6 +457,7 @@ class MiniWindow(QDialog):
 
 
     def the_website(self):
+        # TODO Change for tate
         webbrowser.open("http://electrum.org")
 
 
