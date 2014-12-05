@@ -51,7 +51,7 @@ exe = EXE(pyz,
           upx=False,
           icon='icons/tate.ico',
           console=False)
-          # The console True makes an annoying black box pop up, but it does make Electrum output command line commands, with this turned off no output will be given but commands can still be used
+          # The console True makes an annoying black box pop up, but it does make Tate output command line commands, with this turned off no output will be given but commands can still be used
 
 coll = COLLECT(exe,
                a.binaries,

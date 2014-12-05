@@ -80,7 +80,7 @@ class SimpleConfig(object):
         set_config(self)  # Make a singleton instance of 'self'
 
     def init_path(self):
-        # Read electrum path in the command line configuration
+        # Read tate path in the command line configuration
         self.path = self.read_only_options.get('electrum_path')
 
         # If not set, use the user's default data directory.

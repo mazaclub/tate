@@ -16,7 +16,7 @@ set -e
 
 cd tmp
 
-# Download and unpack Electrum
+# Download and unpack Tate
 wget -O tate.tgz "$ELECTRUM_URL"
 tar xf tate.tgz
 mv Tate-* tate

@@ -17,7 +17,7 @@ class ElectrumGui:
         self.config = config
         storage = WalletStorage(config)
         if not storage.file_exists:
-            print "Wallet not found. try 'electrum create'"
+            print "Wallet not found. try 'tate create'"
             exit()
 
         self.done = 0
@@ -218,12 +218,12 @@ class ElectrumGui:
             print(_('Error'))
 
     def network_dialog(self):
-        print("use 'electrum setconfig server/proxy' to change your network settings")
+        print("use 'tate setconfig server/proxy' to change your network settings")
         return True
 
 
     def settings_dialog(self):
-        print("use 'electrum setconfig' to change your settings")
+        print("use 'tate setconfig' to change your settings")
         return True
 
     def password_dialog(self):

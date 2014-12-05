@@ -18,7 +18,7 @@ class ElectrumGui:
         self.network = network
         storage = WalletStorage(config)
         if not storage.file_exists:
-            print "Wallet not found. try 'electrum create'"
+            print "Wallet not found. try 'tate create'"
             exit()
 
         self.wallet = Wallet(storage)
@@ -287,7 +287,7 @@ class ElectrumGui:
 
     def do_send(self):
         if not is_valid(self.str_recipient):
-            self.show_message(_('Invalid Bitcoin address'))
+            self.show_message(_('Invalid Mazacoin address'))
             return
         try:
             amount = int( Decimal( self.str_amount) * 100000000 )
