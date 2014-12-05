@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-# Electrum - lightweight Bitcoin client
+# Tate - lightweight Mazacoin client
 # Copyright (C) 2013 ecdsa@github
 #
 # This program is free software: you can redistribute it and/or modify
