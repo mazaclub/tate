@@ -645,7 +645,7 @@ class MiniActuator:
         """Set the inital fiat currency conversion country (USD/EUR/GBP) in 
         the GUI to what it was set to in the wallet."""
         currency = self.g.config.get('currency')
-        # currency can be none when Electrum is used for the first
+        # currency can be none when Tate is used for the first
         # time and no setting has been created yet.
         if currency is not None:
             set_quote_currency(currency)

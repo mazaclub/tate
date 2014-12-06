@@ -16,8 +16,8 @@ The workflow goes like this:
    the payment has been received OR that the request has expired
 
 
-Since addresses are generated using an Electrum master public key, it
-is possible to visualize payments in the Electrum client; you will,
+Since addresses are generated using an Tate master public key, it
+is possible to visualize payments in the Tate client; you will,
 however, need to manually adjust your "gap limit". 
 
 In order to use this script, first edit and rename
