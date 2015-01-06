@@ -24,7 +24,7 @@ if (len(sys.argv) > 1 and (sys.argv[1] == "sdist")) or (platform.system() != 'Wi
     print "Including all files"
     data_files += [
         (os.path.join(usr_share, 'applications/'), ['tate.desktop']),
-        (os.path.join(usr_share, 'app-install', 'icons/'), ['icons/electrum.png'])
+        (os.path.join(usr_share, 'app-install', 'icons/'), ['icons/tate.png'])
     ]
     if not os.path.exists('locale'):
         os.mkdir('locale')
