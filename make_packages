@@ -9,12 +9,24 @@ if __name__ == '__main__':
         print "The packages directory is missing."
         sys.exit()
 
-    # os.system("python mki18n.py")
+    os.system("python mki18n.py")
     os.system("pyrcc4 icons.qrc -o gui/qt/icons_rc.py")
     os.system("python setup.py sdist --format=zip,gztar")
     
     _tgz="Tate-%s.tar.gz"%version
     _zip="Tate-%s.zip"%version
+
+    # deps
+    os.mkdir('packages')
+    os.system('pip install --target=packages slowaes')
+    os.system('pip install --target=packages ecdsa')
+    os.system('pip install --target=packages pbkdf2')
+    os.system('pip install --target=packages requests')
+    os.system('pip install --target=packages pyasn1')
+    os.system('pip install --target=packages pyasn1-modules')
+    os.system('pip install --target=packages qrcode')
+    os.system('pip install --target=packages SocksiPy-branch')
+    os.system('pip install --target=packages tlslite')
 
 
     # android
