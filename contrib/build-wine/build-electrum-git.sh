@@ -2,7 +2,7 @@
 
 # You probably need to update only this link
 # TODO Change for Tate
-ELECTRUM_GIT_URL=git://github.com/spesmilo/electrum.git
+ELECTRUM_GIT_URL=git://github.com/mazaclub/tate.git
 BRANCH=master
 NAME_ROOT=tate
 
