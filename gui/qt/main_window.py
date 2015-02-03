@@ -362,8 +362,7 @@ class ElectrumWindow(QMainWindow):
 
         help_menu = menubar.addMenu(_("&Help"))
         help_menu.addAction(_("&About"), self.show_about)
-        # TODO Change for tate
-        help_menu.addAction(_("&Official website"), lambda: webbrowser.open("http://electrum.org"))
+        help_menu.addAction(_("&Official website"), lambda: webbrowser.open("https://maza.club/tate"))
         help_menu.addSeparator()
         # TODO Change for tate
         help_menu.addAction(_("&Documentation"), lambda: webbrowser.open("http://electrum.org/documentation.html")).setShortcut(QKeySequence.HelpContents)
@@ -376,9 +375,8 @@ class ElectrumWindow(QMainWindow):
             _("Version")+" %s" % (self.wallet.electrum_version) + "\n\n" + _("Tate's focus is speed, with low resource usage and simplifying Mazacoin. You do not need to perform regular backups, because your wallet can be recovered from a secret phrase that you can memorize or write on paper. Startup times are instant because it operates in conjunction with high-performance servers that handle the most complicated parts of the Mazacoin system.\nForked from Electrum by mazaclub (Tyler Willis, Rob Nelson, et al.)"))
 
     def show_report_bug(self):
-        # TODO Change for tate
         QMessageBox.information(self, "Tate - " + _("Reporting Bugs"),
-            _("Please report any bugs as issues on github:")+" <a href=\"https://github.com/spesmilo/electrum/issues\">https://github.com/spesmilo/electrum/issues</a>")
+            _("Please report any bugs as issues on github:")+" <a href=\"https://github.com/mazaclub/tate/issues\">https://github.com/mazaclub/tate/issues</a>")
 
 
     def notify_transactions(self):
