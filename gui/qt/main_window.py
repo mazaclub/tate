@@ -531,12 +531,6 @@ class ElectrumWindow(QMainWindow):
         be = self.config.get('block_explorer', 'Mazacha.in')
         if be == 'Mazacha.in':
             block_explorer = 'https://mazacha.in/tx/'
-#        elif be == 'Blockr.io':
-#            block_explorer = 'https://blockr.io/tx/info/'
-#        elif be == 'Insight.is':
-#            block_explorer = 'http://live.insight.is/tx/'
-#        elif be == "Blocktrail.com":
-#            block_explorer = 'https://www.blocktrail.com/tx/'
 
         if not item: return
         tx_hash = str(item.data(0, Qt.UserRole).toString())
@@ -2609,7 +2603,7 @@ class ElectrumWindow(QMainWindow):
         unit_combo.currentIndexChanged.connect(on_unit)
         widgets.append((unit_label, unit_combo, unit_help))
 
-        block_explorers = ['Mazacha.in', 'Blockr.io', 'Insight.is', "Blocktrail.com"]
+        block_explorers = ['Mazacha.in']
         block_ex_label = QLabel(_('Online Block Explorer') + ':')
         block_ex_combo = QComboBox()
         block_ex_combo.addItems(block_explorers)
