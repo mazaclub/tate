@@ -5,6 +5,8 @@ Author: Thomas Voegtlin; forked for Mazacoin by mazaclub (Tyler Willis, Rob Nels
 Language: Python
 Homepage: https://electrum.org/
 
+**NOTE** that wallets created before version 1.0 are incompatible with Tate 1.0.
+
 
 1. GETTING STARTED
 ------------------
