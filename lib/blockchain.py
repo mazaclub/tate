@@ -236,7 +236,7 @@ class Blockchain(threading.Thread):
         name = self.path()
         if os.path.exists(name):
             f = open(name,'rb+')
-            f.seek((self.local_height/self.chunk_size)*80)
+            f.seek((self.local_height*80) - 8000)
             f.truncate()
             f.close()
         self.set_local_height()
