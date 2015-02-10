@@ -3,3 +3,7 @@
  * New key derivation (now BIP 44).
 
  * Wallets created pre-1.0 are incompatible with wallets >= 1.0.
+ 
+ * contrib/build-wine removed, contrib/tate-release - produces Tate versioned releases from github
+
+ * MZC reorg handler improved

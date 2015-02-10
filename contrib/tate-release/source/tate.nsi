@@ -8,7 +8,7 @@
 
   ;Name and file
   Name "Tate"
-  OutFile "dist/tate-setup.exe"
+  OutFile "c:/tate/tate-setup.exe"
 
   ;Default installation folder
   InstallDir "$PROGRAMFILES\Tate"

@@ -13,3 +13,11 @@ gui/qt/icons_rc.py
 locale/
 .devlocaltmp/
 *_trial_temp
+contrib/tate-release/repo/
+contrib/tate-release/source/Tate-*
+contrib/tate-release/source/tate-*
+contrib/tate-release/releases/*
+contrib/tate-releases/ltc_scrypt-1.0/
+*.pyd
+*.so
+*.dylib

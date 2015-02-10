@@ -1,11 +1,11 @@
 Tate - lightweight Mazacoin client
 
 Licence: GNU GPL v3
-Author: Thomas Voegtlin; forked for Mazacoin by mazaclub (Tyler Willis, Rob Nelson, et al.)
+Authors: Original Electrum Source: Thomas Voegtlin; forked for Mazacoin by mazaclub (Tyler Willis, Rob Nelson, et al.)
 Language: Python
-Homepage: https://electrum.org/
+Homepage: https://maza.club/tate
 
-**NOTE** that wallets created before version 1.0 are incompatible with Tate 1.0.
+**NOTE** that wallets created before version 1.0 are incompatible  with Tate 1.0
 
 
 1. GETTING STARTED
