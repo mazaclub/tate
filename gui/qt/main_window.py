@@ -528,7 +528,7 @@ class ElectrumWindow(QMainWindow):
     def create_history_menu(self, position):
         self.history_list.selectedIndexes()
         item = self.history_list.currentItem()
-        be = self.config.get('block_explorer', 'Mazacha.in', 'CoinPayments.net')
+        be = self.config.get('block_explorer', 'Mazacha.in')
         if be == 'Mazacha.in':
             block_explorer = 'https://mazacha.in/tx/'
         elif be == 'CoinPayments.net':
