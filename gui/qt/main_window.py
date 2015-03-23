@@ -532,7 +532,7 @@ class ElectrumWindow(QMainWindow):
         if be == 'Mazacha.in':
             block_explorer = 'https://mazacha.in/tx/'
         elif be == 'CoinPayments.net':
-            block_explorer = 'https://explorer.coinpayments.net/transaction.php?chain=11&'
+            block_explorer = 'https://explorer.coinpayments.net/transaction.php?chain=11&hash='
 #        elif be == 'Blockr.io':
 #            block_explorer = 'https://blockr.io/tx/info/'
 #        elif be == 'Insight.is':
