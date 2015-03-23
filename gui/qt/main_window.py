@@ -528,9 +528,11 @@ class ElectrumWindow(QMainWindow):
     def create_history_menu(self, position):
         self.history_list.selectedIndexes()
         item = self.history_list.currentItem()
-        be = self.config.get('block_explorer', 'Mazacha.in')
+        be = self.config.get('block_explorer', 'Mazacha.in', 'CoinPayments.net')
         if be == 'Mazacha.in':
             block_explorer = 'https://mazacha.in/tx/'
+        elif be == 'CoinPayments.net':
+            block_explorer = 'https://explorer.coinpayments.net/transaction.php?chain=11&'
 #        elif be == 'Blockr.io':
 #            block_explorer = 'https://blockr.io/tx/info/'
 #        elif be == 'Insight.is':
@@ -2609,7 +2611,7 @@ class ElectrumWindow(QMainWindow):
         unit_combo.currentIndexChanged.connect(on_unit)
         widgets.append((unit_label, unit_combo, unit_help))
 
-        block_explorers = ['Mazacha.in', 'Blockr.io', 'Insight.is', "Blocktrail.com"]
+        block_explorers = ['Mazacha.in', 'CoinPayments.net']
         block_ex_label = QLabel(_('Online Block Explorer') + ':')
         block_ex_combo = QComboBox()
         block_ex_combo.addItems(block_explorers)
