@@ -24,8 +24,8 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 import PyQt4.QtCore as QtCore
 
-from electrum.i18n import _
-from electrum import ELECTRUM_VERSION, print_error
+from tate.i18n import _
+from tate import ELECTRUM_VERSION, print_error
 
 class VersionGetter(threading.Thread):
 
@@ -35,6 +35,7 @@ class VersionGetter(threading.Thread):
         self.daemon = True
 
     def run(self):
+        return
         try:
             res = requests.request("GET", "https://electrum.org/version")
         except:

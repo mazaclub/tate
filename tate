@@ -66,15 +66,15 @@ except Exception:
 if is_bundle or is_local or is_android:
     import imp
     imp.load_module('electrum', *imp.find_module('lib'))
-    imp.load_module('electrum_gui', *imp.find_module('gui'))
+    imp.load_module('tate_gui', *imp.find_module('gui'))
 
 
-from electrum import util
-from electrum import SimpleConfig, Network, Wallet, WalletStorage, NetworkProxy
-from electrum.util import print_msg, print_error, print_stderr, print_json, set_verbosity, InvalidPassword
-from electrum.daemon import get_daemon
-from electrum.plugins import init_plugins, run_hook, always_hook
-from electrum.commands import get_parser, known_commands, Commands, config_variables
+from tate import util
+from tate import SimpleConfig, Network, Wallet, WalletStorage, NetworkProxy
+from tate.util import print_msg, print_error, print_stderr, print_json, set_verbosity, InvalidPassword
+from tate.daemon import get_daemon
+from tate.plugins import init_plugins, run_hook, always_hook
+from tate.commands import get_parser, known_commands, Commands, config_variables
 
 
 # get password routine
@@ -110,7 +110,7 @@ def run_gui(config):
         gui_name = 'qt'
 
     try:
-        gui = __import__('electrum_gui.' + gui_name, fromlist=['electrum_gui'])
+        gui = __import__('tate_gui.' + gui_name, fromlist=['tate_gui'])
     except ImportError:
         traceback.print_exc(file=sys.stdout)
         sys.exit()

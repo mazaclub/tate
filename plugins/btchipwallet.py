@@ -6,16 +6,16 @@ from struct import pack,unpack
 from sys import stderr
 from time import sleep
 
-import electrum
-from electrum_gui.qt.password_dialog import make_password_dialog, run_password_dialog
-from electrum.account import BIP32_Account
-from electrum.bitcoin import EncodeBase58Check, DecodeBase58Check, public_key_to_bc_address, bc_address_to_hash_160
-from electrum.i18n import _
-from electrum.plugins import BasePlugin, hook
-from electrum.transaction import deserialize
-from electrum.wallet import BIP32_HD_Wallet, BIP32_Wallet
+import tate
+from tate_gui.qt.password_dialog import make_password_dialog, run_password_dialog
+from tate.account import BIP32_Account
+from tate.bitcoin import EncodeBase58Check, DecodeBase58Check, public_key_to_bc_address, bc_address_to_hash_160
+from tate.i18n import _
+from tate.plugins import BasePlugin, hook
+from tate.transaction import deserialize
+from tate.wallet import BIP32_HD_Wallet, BIP32_Wallet
 
-from electrum.util import format_satoshis_plain, print_error, print_msg
+from tate.util import format_satoshis_plain, print_error, print_msg
 import hashlib
 import threading
 

@@ -16,12 +16,12 @@ import PyQt4.QtGui as QtGui
 import aes
 import base64
 
-import electrum
-from electrum.plugins import BasePlugin, hook
-from electrum.i18n import _
+import tate
+from tate.plugins import BasePlugin, hook
+from tate.i18n import _
 
-from electrum_gui.qt import HelpButton, EnterButton
-from electrum_gui.qt.util import ThreadedButton, Buttons, CancelButton, OkButton
+from tate_gui.qt import HelpButton, EnterButton
+from tate_gui.qt.util import ThreadedButton, Buttons, CancelButton, OkButton
 
 class Plugin(BasePlugin):
 

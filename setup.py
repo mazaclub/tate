@@ -12,7 +12,7 @@ import imp
 version = imp.load_source('version', 'lib/version.py')
 
 if sys.version_info[:3] < (2, 7, 0):
-    sys.exit("Error: Electrum requires Python version >= 2.7.0...")
+    sys.exit("Error: Tate requires Python version >= 2.7.0...")
 
 
 
@@ -20,13 +20,13 @@ data_files = []
 if platform.system() in [ 'Linux', 'FreeBSD', 'DragonFly']:
     usr_share = os.path.join(sys.prefix, "share")
     data_files += [
-        (os.path.join(usr_share, 'applications/'), ['electrum.desktop']),
-        (os.path.join(usr_share, 'pixmaps/'), ['icons/electrum.png'])
+        (os.path.join(usr_share, 'applications/'), ['tate.desktop']),
+        (os.path.join(usr_share, 'pixmaps/'), ['icons/tate.png'])
     ]
 
 
 setup(
-    name="Electrum",
+    name="Tate",
     version=version.ELECTRUM_VERSION,
     install_requires=[
         'slowaes>=0.1a1',
@@ -38,18 +38,18 @@ setup(
         'dnspython',
     ],
     package_dir={
-        'electrum': 'lib',
-        'electrum_gui': 'gui',
-        'electrum_plugins': 'plugins',
+        'tate': 'lib',
+        'tate_gui': 'gui',
+        'tate_plugins': 'plugins',
     },
-    packages=['electrum','electrum_gui','electrum_gui.qt','electrum_plugins'],
+    packages=['tate','tate_gui','tate_gui.qt','tate_plugins'],
     package_data={
-        'electrum': [
+        'tate': [
             'www/index.html',
             'wordlist/*.txt',
             'locale/*/LC_MESSAGES/electrum.mo',
         ],
-        'electrum_gui': [
+        'tate_gui': [
             "qt/themes/cleanlook/name.cfg",
             "qt/themes/cleanlook/style.css",
             "qt/themes/sahara/name.cfg",
@@ -58,12 +58,10 @@ setup(
             "qt/themes/dark/style.css",
         ]
     },
-    scripts=['electrum'],
+    scripts=['tate'],
     data_files=data_files,
-    description="Lightweight Bitcoin Wallet",
-    author="Thomas Voegtlin",
-    author_email="thomasv@electrum.org",
+    description="Lightweight Mazacoin Wallet",
+    author="mazaclub",
     license="GNU GPLv3",
-    url="https://electrum.org",
-    long_description="""Lightweight Bitcoin Wallet"""
+    long_description="""Lightweight Mazacoin Wallet"""
 )

@@ -24,7 +24,7 @@ import json
 import Queue
 import sqlite3
 
-import electrum
+import tate
 electrum.set_verbosity(False)
 
 import ConfigParser
@@ -220,7 +220,7 @@ def db_thread():
         cur.execute("""UPDATE electrum_payments set paid=0 WHERE expires_at < CURRENT_TIMESTAMP and paid is NULL;""")
 
         # do callback for addresses that received payment or expired
-        cur.execute("""SELECT oid, address, paid from electrum_payments WHERE paid is not NULL and processed is NULL;""")
+        cur.execute("""SELECT oid, address, paid from tate_payments WHERE paid is not NULL and processed is NULL;""")
         data = cur.fetchall()
         for item in data:
             oid, address, paid = item

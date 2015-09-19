@@ -313,9 +313,9 @@ class Commands:
 
     @command('')
     def version(self):
-        """Return the version of electrum."""
-        import electrum  # Needs to stay here to prevent ciruclar imports
-        return electrum.ELECTRUM_VERSION
+        """Return the version of tate."""
+        import tate  # Needs to stay here to prevent ciruclar imports
+        return tate.ELECTRUM_VERSION
 
     @command('w')
     def getmpk(self):
@@ -721,7 +721,7 @@ def get_parser(run_gui, run_daemon, run_cmdline):
     # create main parser
     parser = argparse.ArgumentParser(
         parents=[parent_parser],
-        epilog="Run 'electrum help <command>' to see the help for a command")
+        epilog="Run 'tate help <command>' to see the help for a command")
     subparsers = parser.add_subparsers(dest='cmd', metavar='<command>')
     # gui
     parser_gui = subparsers.add_parser('gui', parents=[parent_parser], description="Run Electrum's Graphical User Interface.", help="Run GUI (default)")

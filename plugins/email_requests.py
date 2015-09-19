@@ -39,12 +39,12 @@ from PyQt4.QtCore import *
 import PyQt4.QtCore as QtCore
 import PyQt4.QtGui as QtGui
 
-from electrum.paymentrequest import PR_UNPAID, PR_PAID, PR_EXPIRED
-from electrum.plugins import BasePlugin, hook
-from electrum import util
-from electrum.paymentrequest import PaymentRequest
-from electrum.i18n import _
-from electrum_gui.qt.util import text_dialog, EnterButton
+from tate.paymentrequest import PR_UNPAID, PR_PAID, PR_EXPIRED
+from tate.plugins import BasePlugin, hook
+from tate import util
+from tate.paymentrequest import PaymentRequest
+from tate.i18n import _
+from tate_gui.qt.util import text_dialog, EnterButton
 
 
 
@@ -136,7 +136,7 @@ class Plugin(BasePlugin):
 
     @hook
     def init_qt(self, gui):
-        from electrum_gui.qt.util import ThreadedButton
+        from tate_gui.qt.util import ThreadedButton
         self.win = gui.main_window
         self.win.connect(self.win, SIGNAL('email:new_invoice'), self.new_invoice)
 
@@ -145,7 +145,7 @@ class Plugin(BasePlugin):
         menu.addAction(_("Send via e-mail"), lambda: self.send(addr))
 
     def send(self, addr):
-        from electrum import paymentrequest
+        from tate import paymentrequest
         r = self.wallet.receive_requests.get(addr)
         message = r.get('memo', '')
         if r.get('signature'):
@@ -176,7 +176,7 @@ class Plugin(BasePlugin):
         return EnterButton(_('Settings'), self.settings_dialog)
 
     def settings_dialog(self, x):
-        from electrum_gui.qt.util import Buttons, CloseButton, OkButton
+        from tate_gui.qt.util import Buttons, CloseButton, OkButton
 
         d = QDialog(self.window)
         d.setWindowTitle("Email settings")

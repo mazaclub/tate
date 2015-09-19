@@ -29,19 +29,19 @@ from urllib import quote
 from PyQt4.QtGui import *
 from PyQt4.QtCore import *
 
-import electrum
-from electrum import bitcoin
-from electrum.bitcoin import *
-from electrum.mnemonic import Mnemonic
-from electrum import version
-from electrum.wallet import Multisig_Wallet, BIP32_Wallet
-from electrum.i18n import _
-from electrum.plugins import BasePlugin, run_hook, hook
+import tate
+from tate import bitcoin
+from tate.bitcoin import *
+from tate.mnemonic import Mnemonic
+from tate import version
+from tate.wallet import Multisig_Wallet, BIP32_Wallet
+from tate.i18n import _
+from tate.plugins import BasePlugin, run_hook, hook
 
-from electrum_gui.qt.util import *
-from electrum_gui.qt.qrcodewidget import QRCodeWidget
-from electrum_gui.qt.amountedit import AmountEdit
-from electrum_gui.qt.main_window import StatusBarButton
+from tate_gui.qt.util import *
+from tate_gui.qt.qrcodewidget import QRCodeWidget
+from tate_gui.qt.amountedit import AmountEdit
+from tate_gui.qt.main_window import StatusBarButton
 
 from decimal import Decimal
 
@@ -429,7 +429,7 @@ class Plugin(BasePlugin):
 
 
     def need_server(self, tx):
-        from electrum.account import BIP32_Account
+        from tate.account import BIP32_Account
         # Detect if the server is needed
         long_id, short_id = self.get_user_id()
         xpub3 = self.wallet.master_public_keys['x3/']

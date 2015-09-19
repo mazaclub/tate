@@ -1,11 +1,11 @@
 from PyQt4.QtGui import *
-from electrum.plugins import BasePlugin, hook
-from electrum.i18n import _
+from tate.plugins import BasePlugin, hook
+from tate.i18n import _
 
 
 import datetime
-from electrum.util import format_satoshis
-from electrum.bitcoin import COIN
+from tate.util import format_satoshis
+from tate.bitcoin import COIN
 
 try:
     import matplotlib.pyplot as plt

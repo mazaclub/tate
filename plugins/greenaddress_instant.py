@@ -23,12 +23,12 @@ import requests
 
 from PyQt4.QtGui import QMessageBox, QApplication, QPushButton
 
-from electrum.account import BIP32_Account
-from electrum import bitcoin, util
-from electrum import transaction
-from electrum.plugins import BasePlugin, hook
-from electrum.i18n import _
-from electrum.bitcoin import regenerate_key
+from tate.account import BIP32_Account
+from tate import bitcoin, util
+from tate import transaction
+from tate.plugins import BasePlugin, hook
+from tate.i18n import _
+from tate.bitcoin import regenerate_key
 
 
 

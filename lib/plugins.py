@@ -54,11 +54,11 @@ def init_plugins(config, is_local, gui_name):
     global plugins, descriptions, loader
     if is_local:
         fp, pathname, description = imp.find_module('plugins')
-        electrum_plugins = imp.load_module('electrum_plugins', fp, pathname, description)
-        loader = lambda name: imp.load_source('electrum_plugins.' + name, os.path.join(pathname, name + '.py'))
+        tate_plugins = imp.load_module('tate_plugins', fp, pathname, description)
+        loader = lambda name: imp.load_source('tate_plugins.' + name, os.path.join(pathname, name + '.py'))
     else:
-        electrum_plugins = __import__('electrum_plugins')
-        loader = lambda name: __import__('electrum_plugins.' + name, fromlist=['electrum_plugins'])
+        tate_plugins = __import__('tate_plugins')
+        loader = lambda name: __import__('tate_plugins.' + name, fromlist=['tate_plugins'])
 
     def constructor(name, storage):
         if plugins.get(name) is None:
@@ -76,7 +76,7 @@ def init_plugins(config, is_local, gui_name):
         x += (lambda storage: constructor(name, storage),)
         wallet.wallet_types.append(x)
 
-    descriptions = electrum_plugins.descriptions
+    descriptions = tate_plugins.descriptions
     for item in descriptions:
         name = item['name']
         if gui_name not in item.get('available_for', []):
