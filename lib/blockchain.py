@@ -22,14 +22,14 @@ import util
 from bitcoin import *
 
 
-#target_timespan = 24 * 60 * 60 # Dash: 1 day
+target_timespan = 24 * 60 * 60 # Dash: 1 day
 target_spacing = 2 * 60 # MZC: 2 minutes
-#interval = target_timespan / target_spacing # 576
+interval = target_timespan / target_spacing # 576
 #max_target = 0x00000fffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 max_target = 0x00000ffff0000000000000000000000000000000000000000000000000000000
 
 #START_CALC_HEIGHT = 68589
-#START_CALC_HEIGHT = 70560
+START_CALC_HEIGHT = 70560
 START_CALC_HEIGHT = 99999
 
 def bits_to_target(bits):
