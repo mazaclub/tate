@@ -18,18 +18,10 @@ from collections import deque
 DEFAULT_PORTS = {'t':'50001', 's':'50002', 'h':'8081', 'g':'8082'}
 
 DEFAULT_SERVERS = {
-    'electrum.be':{'t':'50001', 's':'50002'},
-    'electrum.drollette.com':{'t':'50001', 's':'50002'},
-    'erbium1.sytes.net':{'t':'50001', 's':'50002'},
-    'ecdsa.net':{'t':'50001', 's':'110'},
-    'electrum0.electricnewyear.net':{'t':'50001', 's':'50002'},
-    'kirsche.emzy.de':DEFAULT_PORTS,
-    'jwu42.hopto.org':{'t':'50001', 's':'50002'},
-    'VPS.hsmiths.com':{'t':'50001', 's':'50002'},
-    'ELECTRUM.jdubya.info':{'t':'50001', 's':'50002'},
-    'electrum.no-ip.org':{'t':'50001', 's':'50002', 'g':'443'},
-    'electrum.thwg.org':DEFAULT_PORTS,
-    'us.electrum.be':{'t':'50001', 's':'50002'},
+    'tate.maza.club':DEFAULT_PORTS,
+    'tate1.maza.club':DEFAULT_PORTS,
+    'tate2.maza.club':DEFAULT_PORTS,
+    'tate.cryptoadhd.com':DEFAULT_PORTS,
 }
 
 NODES_RETRY_INTERVAL = 60
